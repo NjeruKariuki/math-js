@@ -6,9 +6,15 @@ window.onload = function() {
 
         centerX = width / 2, 
         centerY = height / 2,
-        radius = 200,
+        xRadius = 150,
+        yRadius = 200,
         angle = 0,
-        speed = .01,
+        //for lojaissures curve
+        xAngle = 0,
+        yAngle = 0,
+        //speed = .01,
+        xSpeed = .1,
+        ySpeed = .131,
         x, y;
 
 
@@ -16,13 +22,15 @@ window.onload = function() {
 
     function render() {
         context.clearRect(0, 0, width, height);
-        x = centerX + Math.cos(angle) * radius;
-        y = centerY + Math.sin(angle) * radius;
+        x = centerX + Math.cos(xAngle) * xRadius; //use xAngle and yAngle for lojaissures
+        y = centerY + Math.sin(yAngle) * yRadius;
         context.beginPath();
         context.arc(x, y, 10, 0, Math.PI * 2, false);
         context.fill();
 
-        angle += speed;
+        //angle += speed;
+        xAngle += xSpeed;
+        yAngle += ySpeed;
         requestAnimationFrame(render);
     }
 
