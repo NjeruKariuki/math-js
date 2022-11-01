@@ -22,9 +22,11 @@ const mouse = {
 
 class Particle {
     constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 10 + 1;
+        this.x = mouse.x;
+        this.y = mouse.y;
+       // this.x = Math.random() * canvas.width;
+        //this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 5 + 1;
         this.speedX = Math.random() * 3 -1.5;
         this.speedY = Math.random() * 3 -1.5;
     }
@@ -33,37 +35,50 @@ class Particle {
         this.y += this.speedY;
     }
     draw() {
-        ctx.fillStyle = 'blue';
+        ctx.fillStyle = 'white';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
     }
 }
 
+/*
 function init() {
-    for(let i = 0; i < 200; i++) {
-        particlesArray.push(new Particle())
+    for(let i = 0; i < 100; i++) {
+        particlesArray.push(new Particle()) //data structures stores particles
     }
 }
 
 init();
+*/
 
 function handleParticles() {
     for(let i = 0; i < particlesArray.length; i++) {
         particlesArray[i].update();
         particlesArray[i].draw();
+        //remove particles from array that are smaller than 0.3
+        if(particlesArray[i].size < .3 ) {
+            particlesArray.splice(i, 1);
+            console.log(particlesArray.length);
+            i--;
+        }
     }
 }
 
 window.addEventListener('click', function (event) {
     mouse.x = event.x;
     mouse.y = event.y;
-    drawCircle();
+    for(let i = 0; i< 10; i++) {
+        particlesArray.push(new Particle());
+    }
 })
 
 window.addEventListener('mousemove', function (event) {
     mouse.x = event.x;
     mouse.y = event.y;
+    for(let i = 0; i< 5; i++) {
+        particlesArray.push(new Particle());
+    }
 })
 
 
@@ -75,7 +90,10 @@ function drawCircle() {
 }
 
 function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //clear rectangle to create trails
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     handleParticles();
     requestAnimationFrame(animate);
 }
